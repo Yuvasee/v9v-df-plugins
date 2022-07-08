@@ -112,12 +112,14 @@ export class Utils {
 	}
 
 	public static getIncoming = (locationId: LocationId, arrivalsThreshold = 0) => {
-		const unconfirmedMoves = df.getUnconfirmedMoves().filter((move) => move.to === locationId);
+		const unconfirmedMoves = df
+			.getUnconfirmedMoves()
+			.filter((move) => move.intent.to === locationId);
 		const unconfermedEnergy = unconfirmedMoves
-			.map((move) => move.forces)
+			.map((move) => move.intent.forces)
 			.reduce((a, b) => a + b, 0);
 		const unconfermedSilver = unconfirmedMoves
-			.map((move) => move.silver)
+			.map((move) => move.intent.silver)
 			.reduce((a, b) => a + b, 0);
 
 		const arrivingMoves = Utils.getIncomingVoyages(locationId, arrivalsThreshold);

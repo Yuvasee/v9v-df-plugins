@@ -26,26 +26,29 @@ export { default } from "http://127.0.0.1:2222/v9v_Vectors.js?dev";
  * ////////////////////////////////////////////////////////////////////
  */
 
-import { LocationId } from "@darkforest_eth/types";
 import { html, render } from "https://unpkg.com/htm/preact/standalone.module.js";
+import { AutoClaimVictory } from "./vectors/AutoClaimVictory";
 import { Settings } from "./vectors/Settings";
 import { SettingsUI } from "./vectors/SettingsUI";
-import { Stats } from "./vectors/Stats";
-import { Utils } from "./vectors/Utils";
 import { Vectors } from "./vectors/Vectors";
 import { VectorsUI } from "./vectors/VectorsUI";
 
 class v9v_Vectors {
 	container: HTMLDivElement;
-	stats: Stats;
 	settings: Settings;
 	vectors: Vectors;
-	private autoClaimVictoryInterval: NodeJS.Timer;
+	autoClaimVictory: AutoClaimVictory;
 
 	constructor() {
-		this.stats = new Stats();
 		this.settings = new Settings();
-		this.vectors = new Vectors(this.stats);
+		this.vectors = new Vectors(this.settings);
+		this.autoClaimVictory = new AutoClaimVictory();
+	}
+
+	destroy() {
+		this.vectors.destroy();
+		this.autoClaimVictory.destroy();
+		render(html``, this.container);
 	}
 
 	render(container: HTMLDivElement) {
@@ -61,27 +64,6 @@ class v9v_Vectors {
 
 	draw(ctx: CanvasRenderingContext2D) {
 		this.vectors.drawVectors(ctx);
-	}
-
-	destroy() {
-		this.vectors.destroy();
-		this.stats.destroy();
-		clearInterval(this.autoClaimVictoryInterval);
-		render(html``, this.container);
-	}
-
-	autoClaimVictory() {
-		if ((df as any).gameover) return;
-		const targetIds = (df as any).getTargetPlanets() as LocationId[];
-		targetIds
-			.map((id) => df.getPlanetWithId(id))
-			.filter((p) => Utils.isOwnedByPlayer(p!))
-			.forEach((p) => {
-				const energyPercent = (p!.energy / p!.energyCap) * 100;
-				if (energyPercent >= (df as any).claimVictoryPercentage()) {
-					(df as any).claimVictory(p?.locationId);
-				}
-			});
 	}
 }
 

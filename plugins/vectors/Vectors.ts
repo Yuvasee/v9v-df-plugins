@@ -1,6 +1,6 @@
 import { isUnconfirmedMoveTx, isUnconfirmedUpgradeTx } from "@darkforest_eth/serde";
 import { LocatablePlanet, LocationId, PlanetType } from "@darkforest_eth/types";
-import { Stats } from "./Stats";
+import { Settings } from "./Settings";
 import { Utils } from "./Utils";
 
 export type Vector = {
@@ -26,11 +26,11 @@ const DEFAULT_LOOP_INTERVAL = 1000; // ms
 export class Vectors {
 	public vectors: Vector[] = [];
 
-	private stats: Stats;
+	private settings: Settings;
 	private loopInterval: NodeJS.Timer;
 
-	constructor(stats: Stats) {
-		this.stats = stats;
+	constructor(settings: Settings) {
+		this.settings = settings;
 		this.loadVectors();
 		this.loop();
 		this.loopInterval = setInterval(() => this.loop(), DEFAULT_LOOP_INTERVAL);
@@ -127,9 +127,10 @@ export class Vectors {
 			.filter((p) => p.planetType === PlanetType.PLANET)
 			.filter((p) => !p.transactions?.getTransactions(isUnconfirmedUpgradeTx).length)
 			.forEach((p) => {
-				const stats = this.stats.statsById[p.locationId];
-				if (stats.silverPerRank[0] && p.silver >= stats.silverPerRank[0]) {
-					df.upgrade(p.locationId, stats.rank < 4 ? 1 : 2);
+				const rank = Utils.getPlanetRank(p);
+				const silverPerRank = Utils.getSilverPerRank(p);
+				if (silverPerRank[0] && p.silver >= silverPerRank[0]) {
+					df.upgrade(p.locationId, rank < 4 ? 1 : 2);
 				}
 			});
 
@@ -138,7 +139,6 @@ export class Vectors {
 			const to = df.getPlanetWithId(vector.to)!;
 			const fromOwned = !Utils.isOwnedByPlayer(from.locationId);
 			const toOwned = Utils.isOwnedByPlayer(to.locationId);
-			const toStats = this.stats.statsById[to.locationId];
 
 			if (fromOwned) {
 				return;
@@ -165,13 +165,16 @@ export class Vectors {
 				from.energyCap,
 				toLackEnergy
 			);
-			const availableToSendEnergy = from.energy - from.energyCap * (this.stats.minPercent / 100);
+			const minPercent = this.settings.defaultMinEnergyPercent;
+			const maxPercent = this.settings.defaultMaxEnergyPercent;
+			const availableToSendEnergy = from.energy - from.energyCap * (minPercent / 100);
 			const toSendEnergy = Math.min(toLackTravelEnergy, availableToSendEnergy);
-			const fromWhenReadyEnergy = from.energyCap * (this.stats.maxPercent / 100);
+			const fromWhenReadyEnergy = from.energyCap * (maxPercent / 100);
 
 			const toLackTotalSilver = to.silverCap - to.silver - incoming.silver;
+			const toSilverPerRank = Utils.getSilverPerRank(to);
 			const toLackRankSilver = Math.max(
-				toStats.silverPerRank[0] ? toStats.silverPerRank[0] - to.silver - incoming.silver : 0,
+				toSilverPerRank[0] ? toSilverPerRank[0] - to.silver - incoming.silver : 0,
 				0
 			);
 			const toSendSilver = toLackRankSilver
@@ -179,13 +182,13 @@ export class Vectors {
 				: Math.min(toLackTotalSilver, from.silverCap);
 
 			if (vector.type === "C") {
-				if (toOwned && to.energy >= to.energyCap * (this.stats.minPercent / 100)) {
+				if (toOwned && to.energy >= to.energyCap * (minPercent / 100)) {
 					this.dropVectors(vector.from, ["S"]);
 					return;
 				}
 				const toLackEnergy = Math.floor(
 					(!toOwned ? to.energy * (to.defense / 100) : 0) +
-						to.energyCap * (this.stats.minPercent / 100) -
+						to.energyCap * (minPercent / 100) -
 						incoming.energy -
 						(toOwned ? to.energy : 0)
 				);

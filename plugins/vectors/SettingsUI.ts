@@ -51,13 +51,16 @@ export const SettingsUI = ({ settings }: { settings: Settings }) => {
 				margin-left: 10px;
 			}
 		</style>
+
 		<span class="absolutium-settings-cog">⚙</span>
 		<span class="absolutium-settings-toggle" onclick=${() => setOpen((v) => !v)}>Settings</span>
+
 		${open &&
 		html`
 			<div class="absolutium-settings">
 				<div class="absolutium-settings-block">
 					<div>Energy to send</div>
+
 					<div class="absolutium-range-input">
 						min
 						<input
@@ -69,6 +72,7 @@ export const SettingsUI = ({ settings }: { settings: Settings }) => {
 						/>
 						<span>${minEnergy}</span>
 					</div>
+
 					<div class="absolutium-range-input">
 						max
 						<input
