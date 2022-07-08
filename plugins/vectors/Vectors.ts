@@ -1,27 +1,14 @@
 import { isUnconfirmedMoveTx, isUnconfirmedUpgradeTx } from "@darkforest_eth/serde";
 import { LocatablePlanet, LocationId, PlanetType } from "@darkforest_eth/types";
+import {
+	VECTORS_LINE_WIDTH,
+	VECTORS_LOOP_INTERVAL,
+	VECTORS_STORAGE_KEY,
+	VECTORS_COLORS,
+} from "./constants";
 import { Settings } from "./Settings";
+import { Vector, VectorType } from "./types";
 import { Utils } from "./Utils";
-
-export type Vector = {
-	from: LocationId;
-	to: LocationId;
-	type: VectorType;
-};
-
-export type VectorType = "C" | "E" | "S" | "Es" | "Se";
-
-export const VECTOR_COLORS: Record<VectorType, { line: string; arrow: string }> = {
-	C: { line: "#ad593b", arrow: "#ad593b77" },
-	E: { line: "dodgerblue", arrow: "#1e90ff77" },
-	S: { line: "orangered", arrow: "#ff450077" },
-	Es: { line: "cyan", arrow: "#00ffff77" },
-	Se: { line: "orange", arrow: "#ffa50077" },
-};
-
-const VECTORS_STORAGE_KEY = "vectors_" + location.href.slice(-42);
-const LINE_WIDTH = 1;
-const DEFAULT_LOOP_INTERVAL = 1000; // ms
 
 export class Vectors {
 	public vectors: Vector[] = [];
@@ -33,7 +20,7 @@ export class Vectors {
 		this.settings = settings;
 		this.loadVectors();
 		this.loop();
-		this.loopInterval = setInterval(() => this.loop(), DEFAULT_LOOP_INTERVAL);
+		this.loopInterval = setInterval(() => this.loop(), VECTORS_LOOP_INTERVAL);
 	}
 
 	public destroy() {
@@ -79,9 +66,9 @@ export class Vectors {
 			const toY = _toY - (toRad / viewport.scale) * Math.sin(angle);
 			const arrLen = Math.max(fromRad, 50) / viewport.scale;
 
-			ctx.strokeStyle = VECTOR_COLORS[vector.type].line;
-			ctx.fillStyle = VECTOR_COLORS[vector.type].arrow;
-			ctx.lineWidth = LINE_WIDTH;
+			ctx.strokeStyle = VECTORS_COLORS[vector.type].line;
+			ctx.fillStyle = VECTORS_COLORS[vector.type].arrow;
+			ctx.lineWidth = VECTORS_LINE_WIDTH;
 
 			// Line
 			ctx.beginPath();
@@ -122,18 +109,6 @@ export class Vectors {
 	}
 
 	private loop() {
-		// Upgrade planets
-		df.getMyPlanets()
-			.filter((p) => p.planetType === PlanetType.PLANET)
-			.filter((p) => !p.transactions?.getTransactions(isUnconfirmedUpgradeTx).length)
-			.forEach((p) => {
-				const rank = Utils.getPlanetRank(p);
-				const silverPerRank = Utils.getSilverPerRank(p);
-				if (silverPerRank[0] && p.silver >= silverPerRank[0]) {
-					df.upgrade(p.locationId, rank < 4 ? 1 : 2);
-				}
-			});
-
 		this.vectors.forEach((vector) => {
 			const from = df.getPlanetWithId(vector.from)!;
 			const to = df.getPlanetWithId(vector.to)!;

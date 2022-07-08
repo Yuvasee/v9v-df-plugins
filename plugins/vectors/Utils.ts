@@ -1,15 +1,4 @@
-import { isUnconfirmedFindArtifactTx, isUnconfirmedProspectPlanetTx } from "@darkforest_eth/serde";
-import {
-	LocatablePlanet,
-	LocationId,
-	Planet,
-	PlanetType,
-	QueuedArrival,
-	SpaceType,
-	UpgradeState,
-	WorldCoords,
-} from "@darkforest_eth/types";
-import { ArrivingEnergy, UpgradeType } from "./types";
+import { LocationId, Planet, PlanetType, QueuedArrival, SpaceType } from "@darkforest_eth/types";
 
 export class Utils {
 	public static getDist(p0: LocationId | Planet, p1: LocationId | Planet): number {
@@ -32,15 +21,6 @@ export class Utils {
 		return 5;
 	}
 
-	public static getUpgradeStateGoal(p: Planet, priority: UpgradeType): UpgradeState {
-		const maxRank = Utils.getPlanetMaxRank(p);
-		return {
-			[UpgradeType.Defense]: [Math.min(maxRank, 4), maxRank === 5 ? 1 : 0, 0],
-			[UpgradeType.Range]: [0, Math.min(maxRank, 4), maxRank === 5 ? 1 : 0],
-			[UpgradeType.Speed]: [0, maxRank === 5 ? 1 : 0, Math.min(maxRank, 4)],
-		}[priority] as UpgradeState;
-	}
-
 	public static getSilverPerRank(planet: Planet): number[] {
 		const rank = Utils.getPlanetRank(planet);
 		const maxRank = Utils.getPlanetMaxRank(planet);
@@ -49,26 +29,6 @@ export class Utils {
 			silverPerRank.push(Math.floor((i + 1) * 0.2 * planet.silverCap));
 		}
 		return silverPerRank;
-	}
-
-	public static getEffectiveRange(planetRange: number, percentEnergySending = 100, rangeBoost = 1) {
-		if (percentEnergySending === 0) return 0;
-		return Math.max(Math.log2(percentEnergySending / 5), 0) * planetRange * rangeBoost;
-	}
-
-	public static getArrivingEnergy(
-		dist: number,
-		senderRange: number,
-		senderEnergyCap: number,
-		sentEnergy: number,
-		defense = 100
-	): ArrivingEnergy {
-		const decayRate = (1 / 2) ** (dist / senderRange);
-		const arriving = Math.max(decayRate * sentEnergy - 0.05 * senderEnergyCap, 0);
-		return {
-			arriving,
-			withDefense: arriving / (defense / 100),
-		};
 	}
 
 	public static getTravelDecayRate(dist: number, senderRange: number): number {
@@ -83,12 +43,6 @@ export class Utils {
 	) {
 		const decayRate = Utils.getTravelDecayRate(dist, senderRange);
 		return Math.ceil((receiveEnergy + 0.05 * senderEnergyCap) / decayRate);
-	}
-
-	public static focusPlanet(planet: Planet | LocatablePlanet | LocationId) {
-		planet = typeof planet === "string" ? df.getPlanetWithId(planet)! : planet;
-		ui.setSelectedPlanet(planet as LocatablePlanet);
-		ui.centerPlanet(planet as LocatablePlanet);
 	}
 
 	public static isOwnedByPlayer(planet: LocationId | Planet): boolean {
@@ -135,26 +89,4 @@ export class Utils {
 			silver: unconfermedSilver + arrivingSilver,
 		};
 	};
-
-	public static isCoordsInUniverse(coords: WorldCoords): boolean {
-		return Math.sqrt(Math.pow(coords.x, 2) + Math.pow(coords.y, 2)) < df.getWorldRadius();
-	}
-
-	public static planetHasArtifactToFind(p: Planet): boolean {
-		return (
-			p.planetType === PlanetType.RUINS && !p.hasTriedFindingArtifact && !p.prospectedBlockNumber
-		);
-	}
-
-	public static safeFindArtifact(p: LocationId | Planet): void {
-		p = typeof p === "string" ? df.getPlanetWithId(p)! : p;
-		if (
-			!Utils.planetHasArtifactToFind(p) ||
-			p.transactions?.getTransactions(isUnconfirmedProspectPlanetTx).length ||
-			p.transactions?.getTransactions(isUnconfirmedFindArtifactTx).length
-		) {
-			return;
-		}
-		df.prospectPlanet(p.locationId);
-	}
 }

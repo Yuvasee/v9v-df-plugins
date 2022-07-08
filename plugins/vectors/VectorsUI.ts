@@ -1,6 +1,8 @@
 import { LocatablePlanet } from "@darkforest_eth/types";
 import { html, useEffect, useState } from "https://unpkg.com/htm/preact/standalone.module.js";
-import { Vectors, VectorType, VECTOR_COLORS } from "./Vectors";
+import { VECTORS_COLORS } from "./constants";
+import { VectorType } from "./types";
+import { Vectors } from "./Vectors";
 
 export const VectorsUI = ({ v }: { v: Vectors }) => {
 	const forceRender = useForceRender();
@@ -75,34 +77,34 @@ export const VectorsUI = ({ v }: { v: Vectors }) => {
 				color: gray;
 			}
 			#vectors-c-button {
-				border-color: ${VECTOR_COLORS.C.line};
+				border-color: ${VECTORS_COLORS.C.line};
 			}
 			#vectors-e-button {
-				border-color: ${VECTOR_COLORS.E.line};
+				border-color: ${VECTORS_COLORS.E.line};
 			}
 			#vectors-s-button {
-				border-color: ${VECTOR_COLORS.S.line};
+				border-color: ${VECTORS_COLORS.S.line};
 			}
 			#vectors-es-button {
-				border-color: ${VECTOR_COLORS.Es.line};
+				border-color: ${VECTORS_COLORS.Es.line};
 			}
 			#vectors-se-button {
-				border-color: ${VECTOR_COLORS.Se.line};
+				border-color: ${VECTORS_COLORS.Se.line};
 			}
 			#vectors-c-button:disabled {
-				background: ${VECTOR_COLORS.C.arrow};
+				background: ${VECTORS_COLORS.C.arrow};
 			}
 			#vectors-e-button:disabled {
-				background: ${VECTOR_COLORS.E.arrow};
+				background: ${VECTORS_COLORS.E.arrow};
 			}
 			#vectors-s-button:disabled {
-				background: ${VECTOR_COLORS.S.arrow};
+				background: ${VECTORS_COLORS.S.arrow};
 			}
 			#vectors-es-button:disabled {
-				background: ${VECTOR_COLORS.Es.arrow};
+				background: ${VECTORS_COLORS.Es.arrow};
 			}
 			#vectors-se-button:disabled {
-				background: ${VECTOR_COLORS.Se.arrow};
+				background: ${VECTORS_COLORS.Se.arrow};
 			}
 			.vectors-select-indicator {
 				padding-top: 10px;

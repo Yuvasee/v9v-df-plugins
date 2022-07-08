@@ -28,6 +28,7 @@ export { default } from "http://127.0.0.1:2222/v9v_Vectors.js?dev";
 
 import { html, render } from "https://unpkg.com/htm/preact/standalone.module.js";
 import { AutoClaimVictory } from "./vectors/AutoClaimVictory";
+import { AutoUpdates } from "./vectors/AutoUpdates";
 import { Settings } from "./vectors/Settings";
 import { SettingsUI } from "./vectors/SettingsUI";
 import { Vectors } from "./vectors/Vectors";
@@ -38,16 +39,19 @@ class v9v_Vectors {
 	settings: Settings;
 	vectors: Vectors;
 	autoClaimVictory: AutoClaimVictory;
+	autoUpdates: AutoUpdates;
 
 	constructor() {
 		this.settings = new Settings();
 		this.vectors = new Vectors(this.settings);
 		this.autoClaimVictory = new AutoClaimVictory();
+		this.autoUpdates = new AutoUpdates();
 	}
 
 	destroy() {
 		this.vectors.destroy();
 		this.autoClaimVictory.destroy();
+		this.autoUpdates.destroy();
 		render(html``, this.container);
 	}
 

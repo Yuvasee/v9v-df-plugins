@@ -1,11 +1,13 @@
 import { LocationId } from "@darkforest_eth/types";
+
+import { AUTO_CLAIM_VICTORY_INTERVAL } from "./constants";
 import { Utils } from "./Utils";
 
 export class AutoClaimVictory {
 	private interval: NodeJS.Timer;
 
 	constructor() {
-		this.interval = setInterval(() => this.loop(), 1000);
+		this.interval = setInterval(() => this.loop(), AUTO_CLAIM_VICTORY_INTERVAL);
 	}
 
 	destroy() {
