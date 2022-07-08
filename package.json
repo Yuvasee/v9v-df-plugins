@@ -18,6 +18,6 @@
 		"typescript": "^4.7.4"
 	},
 	"scripts": {
-		"dev": "df-plugin-dev-server"
+		"dev": "df-plugin-dev-server --glob plugins/*.ts"
 	}
 }

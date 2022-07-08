@@ -33,9 +33,9 @@ import {
 	useEffect,
 	useState,
 } from "https://unpkg.com/htm/preact/standalone.module.js";
-import { Stats } from "./absolutium/Stats";
-import { Utils } from "./absolutium/Utils";
-import { Vectors, VectorType, VECTOR_COLORS } from "./absolutium/Vectors";
+import { Stats } from "./modules/Stats";
+import { Utils } from "./modules/Utils";
+import { Vectors, VectorType, VECTOR_COLORS } from "./modules/Vectors";
 
 const SETTINGS_STORAGE_KEY = "v9v_vectors_settings_" + location.href.slice(-42);
 
@@ -230,7 +230,7 @@ const VectorsUI = ({ v }: { v: Vectors }) => {
 	};
 
 	if (!selectedPlanet) {
-		return html``;
+		return html`Select planet`;
 	}
 
 	const planetVectors = v.vectorsFrom(selectedPlanet.locationId);

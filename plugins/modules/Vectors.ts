@@ -146,7 +146,7 @@ export class Vectors {
 			const unconfirmedMove = from.transactions?.getTransactions(isUnconfirmedMoveTx).length;
 			const pendingMove = df
 				.getUnconfirmedMoves()
-				.filter((move) => move.to === vector.to && move.from === vector.from).length;
+				.filter((move) => move.intent.to === vector.to && move.intent.from === vector.from).length;
 			if (unconfirmedMove || pendingMove) return;
 
 			const incoming = Utils.getIncoming(to.locationId);
