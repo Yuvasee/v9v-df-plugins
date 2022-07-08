@@ -24,66 +24,60 @@ export const SettingsUI = ({ settings }: { settings: Settings }) => {
 
 	return html`
 		<style>
-			.absolutium-settings-cog {
+			.vectors-settings-cog {
 				margin-right: 10px;
 			}
-			.absolutium-settings-toggle {
+			.vectors-settings-toggle {
 				border-bottom: 1px dashed gray;
 				cursor: pointer;
 			}
-			.absolutium-settings {
-				border-bottom: 1px solid #666;
-				padding-bottom: 10px;
-			}
-			.absolutium-settings-block {
+			.vectors-settings-block {
 				display: flex;
 				flex-direction: column;
 			}
-			.absolutium-range-input {
+			.vectors-range-input {
 				display: flex;
 				align-items: center;
 			}
-			.absolutium-range-input input {
+			.vectors-range-input input {
 				margin-left: 10px;
 				flex-grow: 1;
 			}
-			.absolutium-range-input span {
+			.vectors-range-input span {
 				margin-left: 10px;
 			}
 		</style>
 
-		<span class="absolutium-settings-cog">⚙</span>
-		<span class="absolutium-settings-toggle" onclick=${() => setOpen((v) => !v)}>Settings</span>
+		<span class="vectors-settings-cog">⚙</span>
+		<span class="vectors-settings-toggle" onclick=${() => setOpen((v) => !v)}>Settings</span>
 
 		${open &&
 		html`
-			<div class="absolutium-settings">
-				<div class="absolutium-settings-block">
-					<div>Energy to send</div>
+			<div class="vectors-settings-block">
+				<div>Energy to send</div>
 
-					<div class="absolutium-range-input">
-						min
-						<input
-							type="range"
-							min="1"
-							max="40"
-							value=${minEnergy}
-							onchange=${(e: any) => setMinEnergy(e.target.value)}
-						/>
-						<span>${minEnergy}</span>
-					</div>
+				<div class="vectors-range-input">
+					min
+					<input
+						type="range"
+						min="1"
+						max="40"
+						value=${minEnergy}
+						onchange=${(e: any) => setMinEnergy(e.target.value)}
+					/>
+					<span>${minEnergy}</span>
+				</div>
 
-					<div class="absolutium-range-input">
-						max
-						<input
-							type="range"
-							min="60"
-							max="99"
-							value=${maxEnergy}
-							onchange=${(e: any) => setMaxEnergy(e.target.value)}
-						/>
-						<span>${maxEnergy}</span>
-					</div>
+				<div class="vectors-range-input">
+					max
+					<input
+						type="range"
+						min="60"
+						max="99"
+						value=${maxEnergy}
+						onchange=${(e: any) => setMaxEnergy(e.target.value)}
+					/>
+					<span>${maxEnergy}</span>
 				</div>
 			</div>
 		`}

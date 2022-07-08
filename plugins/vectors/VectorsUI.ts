@@ -43,7 +43,7 @@ export const VectorsUI = ({ v }: { v: Vectors }) => {
 	};
 
 	if (!selectedPlanet) {
-		return html`Select planet`;
+		return html`Vectors. Select a planet.`;
 	}
 
 	const planetVectors = v.vectorsFrom(selectedPlanet.locationId);
@@ -54,10 +54,26 @@ export const VectorsUI = ({ v }: { v: Vectors }) => {
 	const activeSe = planetVectors.some((v) => v.type === "Se");
 
 	return html`
+		<div class="vectors-container">
+			<div>Vectors</div>
+			<button disabled=${activeC} onclick=${() => clickCreate("C")} id="vectors-c-button">C</button>
+			<button disabled=${activeE} onclick=${() => clickCreate("E")} id="vectors-e-button">E</button>
+			<button disabled=${activeS} onclick=${() => clickCreate("S")} id="vectors-s-button">S</button>
+			<button disabled=${activeEs} onclick=${() => clickCreate("Es")} id="vectors-es-button">
+				Es
+			</button>
+			<button disabled=${activeSe} onclick=${() => clickCreate("Se")} id="vectors-se-button">
+				Se
+			</button>
+			<button disabled=${!planetVectors.length} onclick=${() => clickDrop()}>X</button>
+		</div>
+		${selectMode &&
+		html`<div class="vectors-select-indicator">Click on target planet to create a Vector.</div>`}
+
 		<style>
 			.vectors-container {
-				padding: 10px 0 10px;
-				border-bottom: 1px solid #666;
+				display: flex;
+				justify-content: space-between;
 			}
 			.vectors-container button {
 				padding: 0 10px;
@@ -110,21 +126,6 @@ export const VectorsUI = ({ v }: { v: Vectors }) => {
 				padding-top: 10px;
 			}
 		</style>
-		<div class="vectors-container">
-			Vectors:
-			<button disabled=${activeC} onclick=${() => clickCreate("C")} id="vectors-c-button">C</button>
-			<button disabled=${activeE} onclick=${() => clickCreate("E")} id="vectors-e-button">E</button>
-			<button disabled=${activeS} onclick=${() => clickCreate("S")} id="vectors-s-button">S</button>
-			<button disabled=${activeEs} onclick=${() => clickCreate("Es")} id="vectors-es-button">
-				Es
-			</button>
-			<button disabled=${activeSe} onclick=${() => clickCreate("Se")} id="vectors-se-button">
-				Se
-			</button>
-			<button disabled=${!planetVectors.length} onclick=${() => clickDrop()}>X</button>
-
-			${selectMode && html`<div class="vectors-select-indicator">Select target planet</div>`}
-		</div>
 	`;
 };
 
