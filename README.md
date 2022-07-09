@@ -1,5 +1,7 @@
 **Vectors** plugin for Dark Forest.
 
+![Vectors screenshot](https://github.com/yuvasee/v9v-df-plugins/blob/main/docs/screenshot.png?raw=true)
+
 # Installation
 
 - clone this repo to local folder
@@ -15,14 +17,20 @@ export { default } from "http://127.0.0.1:2222/v9v_Vectors.js?dev";
 
 ## Energy and silver automated logistics with clear visualization
 
-- "C" mode. Captures planet and puts min energy on it, then automatically self-drops.
-- "E" mode. Captures if needed + repeatedly sends energy until target reaches energy cap.
+- "E" mode
+  - Captures if needed + repeatedly sends energy until target reaches energy cap.
   - Sends only when donor reaches max effective energy level (default is 80%).
   - Never sends energy over planet cap - current - incoming (arriving in next 10 seconds).
-- "S" mode. Sends silver until target reaches silver cap. Not sends when donor silver < 10% of cap.
+- "Es" mode
+  - Like "E" mode + sends silver.
+- "S" mode
+  - Sends silver until target reaches silver cap.
+  - Not sends when donor silver < 10% of cap.
   - Never sends silver over planet cap - current - incoming.
-- "Es" mode. Like "E" mode + sends silver.
-- "Se" mode. Like "S" mode + sends energy.
+- "Se" mode
+  - Like "S" mode + sends energy.
+- "C" mode
+  - Captures planet and puts min energy on it, then automatically self-drops.
 
 ## Settings
 
