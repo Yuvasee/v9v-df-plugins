@@ -43,7 +43,7 @@ export const VectorsUI = ({ v }: { v: Vectors }) => {
 	};
 
 	if (!selectedPlanet) {
-		return html`Select planet`;
+		return html`Vectors. Select a planet.`;
 	}
 
 	const planetVectors = v.vectorsFrom(selectedPlanet.locationId);
@@ -54,14 +54,66 @@ export const VectorsUI = ({ v }: { v: Vectors }) => {
 	const activeSe = planetVectors.some((v) => v.type === "Se");
 
 	return html`
+		<div class="vectors-container">
+			<div class="vectors-button-block">
+				Energy
+				<div class="vectors-button-wrapper">
+					<button disabled=${activeE} onclick=${() => clickCreate("E")} id="vectors-e-button">
+						E
+					</button>
+					<button disabled=${activeEs} onclick=${() => clickCreate("Es")} id="vectors-es-button">
+						Es
+					</button>
+				</div>
+			</div>
+			<div class="vectors-button-block">
+				Silver
+				<div>
+					<button disabled=${activeS} onclick=${() => clickCreate("S")} id="vectors-s-button">
+						S
+					</button>
+					<button disabled=${activeSe} onclick=${() => clickCreate("Se")} id="vectors-se-button">
+						Se
+					</button>
+				</div>
+			</div>
+			<div class="vectors-button-block">
+				Capture
+				<div class="vectors-button-wrapper">
+					<button disabled=${activeC} onclick=${() => clickCreate("C")} id="vectors-c-button">
+						C
+					</button>
+				</div>
+			</div>
+			<div class="vectors-button-block">
+				Clear
+				<button disabled=${!planetVectors.length} onclick=${() => clickDrop()}>X</button>
+			</div>
+		</div>
+		${selectMode &&
+		html`<div class="vectors-select-indicator">Click on target planet to create a Vector.</div>`}
+
 		<style>
 			.vectors-container {
-				padding: 10px 0 10px;
-				border-bottom: 1px solid #666;
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-end;
+			}
+			.vectors-button-block {
+				display: flex;
+				flex-direction: column;
+			}
+			.vectors-button-wrapper {
+				display: flex;
+				justify-content: space-between;
 			}
 			.vectors-container button {
-				padding: 0 10px;
-				margin: 0 10px;
+				padding: 3px 12px;
+				margin-top: 3px;
+				max-height: 32px;
+			}
+			.vectors-container button:not(:last-child) {
+				margin-right: 12px;
 			}
 			.vectors-container button:hover {
 				border: 1px solid white;
@@ -110,21 +162,6 @@ export const VectorsUI = ({ v }: { v: Vectors }) => {
 				padding-top: 10px;
 			}
 		</style>
-		<div class="vectors-container">
-			Vectors:
-			<button disabled=${activeC} onclick=${() => clickCreate("C")} id="vectors-c-button">C</button>
-			<button disabled=${activeE} onclick=${() => clickCreate("E")} id="vectors-e-button">E</button>
-			<button disabled=${activeS} onclick=${() => clickCreate("S")} id="vectors-s-button">S</button>
-			<button disabled=${activeEs} onclick=${() => clickCreate("Es")} id="vectors-es-button">
-				Es
-			</button>
-			<button disabled=${activeSe} onclick=${() => clickCreate("Se")} id="vectors-se-button">
-				Se
-			</button>
-			<button disabled=${!planetVectors.length} onclick=${() => clickDrop()}>X</button>
-
-			${selectMode && html`<div class="vectors-select-indicator">Select target planet</div>`}
-		</div>
 	`;
 };
 

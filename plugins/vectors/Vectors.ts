@@ -5,6 +5,7 @@ import {
 	VECTORS_LOOP_INTERVAL,
 	VECTORS_STORAGE_KEY,
 	VECTORS_COLORS,
+	INCOMING_THRESHOLD_S,
 } from "./constants";
 import { Settings } from "./Settings";
 import { Vector, VectorType } from "./types";
@@ -125,7 +126,7 @@ export class Vectors {
 			if (unconfirmedMove || pendingMove) return;
 
 			const incoming = Utils.getIncoming(to.locationId);
-			const incomingSoon = Utils.getIncoming(to.locationId, 15);
+			const incomingSoon = Utils.getIncoming(to.locationId, INCOMING_THRESHOLD_S);
 
 			const toLackEnergy =
 				(!toOwned ? to.energy * (to.defense / 100) : 0) +
@@ -213,11 +214,11 @@ export class Vectors {
 			}
 
 			if (vector.type === "Es") {
-				sendE(true);
+				to.energy < to.energyCap * 0.99 ? sendE(true) : sendS(false);
 			}
 
 			if (vector.type === "Se") {
-				sendS(true);
+				to.silver < to.silverCap ? sendS(true) : sendE(false);
 			}
 		});
 	}

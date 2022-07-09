@@ -1,0 +1,55 @@
+/**
+Test cases.
+- Settings UI
+  - On plugin run shows Settings UI toggle
+  - Opens and closes Settings UI when toggle is clicked
+  - Settings UI is closed by default
+  - Settings are persisted to local storage 
+- Vectors UI
+  - When no planet is selected, shows "Select a planet"
+  - When a planet is selected, shows C, E, S, Es, Se and X (delete) buttons
+  - Clickable vector buttons are highlighted on hover
+  - Clicked create vector button becomes active (outlinded)
+  - In create vector mode shows "Click on a planet to create a vector"
+  - In create vector mode, clicking on a free space disables it
+  - In create vector mode, clicking on a planet creates a vector 
+  - Active vector button becomes inactive and filled with color of vector type
+  - One planet can have 1 outgoing vector of any type, or C+S/E+S pairs
+  - Creating new vector deletes previous outgoing vector (beside C+S, E+S pairs)
+  - Clicking X button deletes all outgoing vectors
+- E vector logic
+  - If possible, sends energy to capture and top up target energy
+  - If donor energy is not enough, sends max energy possible
+  - Sends when donor energy is over `maxEnergyPercent` (value adjustable in Settings)
+  - When sending max energy, keeps at least `minEnergyPercent` (value adjustable in Settings)
+  - Never sends more energy than target planet can hold (counts incoming silver in up to 10 seconds)
+  - Not counts energy incomingin after 10 seconds (so effectively will overfill target planet if it's far enough)
+  - Never creates unnecessary transaction attempts `minEnergyPercent`
+- C vector logic
+  - Same as E vector logic, but tops up energy to value `minEnergyPercent` instead of `maxEnergyPercent`
+  - Disappears after target's energy reaches `minEnergyPercent` value
+- S vector logic
+  - If possible, sends silver to top up target silver 
+  - If silver is not enough to top up target, sends amount to reach target's next rank(s)
+  - If donor reached top silver and it's not enough to reach next target's rank, sends all silver
+  - Never sends more silver than target planet can hold (counts incoming silver)
+  - Never creates unnecessary transaction attempts
+- Es vector logic
+  - Sends energy as E vector
+  - When sending energy adds silver according to S vector logic
+  - When target energy us full, works as S vector
+- Se vector logic
+  - Sends silver as S vector
+  - When sending silver adds energy according to E vector logic
+  - When target silver is full, works as E vector
+- Automatic planet updates
+  - Updates planet when it gets enough silver
+  - Maximizes distance, then speed
+  - Works correctly with multiple planets in parallel
+  - Works correctly with planets of all ranks (3, 4, 5 updates possible)
+  - Never creates unnecessary transaction attempts
+- Automatic victory claim
+  - Checks for victory conditions and claims victory when ready
+ */
+
+export {};
