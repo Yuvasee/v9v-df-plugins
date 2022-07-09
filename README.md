@@ -13,7 +13,7 @@ export { default } from "http://127.0.0.1:2222/v9v_Vectors.js?dev";
 
 # Features
 
-## Energy and silver automated logistics with clear visualization.
+## Energy and silver automated logistics with clear visualization
 
 - "C" mode. Captures planet and puts min energy on it, then automatically self-drops.
 - "E" mode. Captures if needed + repeatedly sends energy until target reaches energy cap.
@@ -23,6 +23,10 @@ export { default } from "http://127.0.0.1:2222/v9v_Vectors.js?dev";
   - Never sends silver over planet cap - current - incoming.
 - "Es" mode. Like "E" mode + sends silver.
 - "Se" mode. Like "S" mode + sends energy.
+
+## Settings
+
+- Max/min planet energy percent limits, 20/80 by default.
 
 ## Auto-upgrades
 
