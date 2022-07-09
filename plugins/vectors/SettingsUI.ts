@@ -54,7 +54,7 @@ export const SettingsUI = ({ settings }: { settings: Settings }) => {
 		${open &&
 		html`
 			<div class="vectors-settings-block">
-				<div>Energy to send</div>
+				<div>Energy limits</div>
 
 				<div class="vectors-range-input">
 					min

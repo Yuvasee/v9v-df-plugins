@@ -9,11 +9,11 @@ export const AUTO_UPDATES_INTERVAL = 1000; // ms
 
 export const VECTORS_LINE_WIDTH = 1;
 export const VECTORS_COLORS: Record<VectorType, { line: string; arrow: string }> = {
-	C: { line: "#ad593b", arrow: "#ad593b77" },
+	C: { line: "#d25f27", arrow: "#d25f2777" },
 	E: { line: "dodgerblue", arrow: "#1e90ff77" },
-	S: { line: "orangered", arrow: "#ff450077" },
 	Es: { line: "cyan", arrow: "#00ffff77" },
-	Se: { line: "orange", arrow: "#ffa50077" },
+	S: { line: "#fccf00", arrow: "#fccf0077" },
+	Se: { line: "#a5dc2f", arrow: "#a5dc2f77" },
 };
 
 export const INCOMING_THRESHOLD_S = 15;
