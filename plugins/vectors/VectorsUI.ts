@@ -5,7 +5,8 @@ import { VectorType } from "./types";
 import { Vectors } from "./Vectors";
 
 export const VectorsUI = ({ v }: { v: Vectors }) => {
-	const forceRender = useForceRender();
+	v.forceRender = useForceRender();
+
 	const [selectedPlanet, setSelectedPlanet] = useState<LocatablePlanet | null>(null);
 	const [selectMode, setSelectMode] = useState(false);
 
@@ -20,7 +21,6 @@ export const VectorsUI = ({ v }: { v: Vectors }) => {
 
 	const clickDrop = () => {
 		v.dropVectors(selectedPlanet!.locationId);
-		forceRender();
 	};
 
 	const clickCreate = (vectorType: VectorType) => {

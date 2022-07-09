@@ -13,6 +13,7 @@ import { Utils } from "./Utils";
 
 export class Vectors {
 	public vectors: Vector[] = [];
+	public forceRender: () => void;
 
 	private settings: Settings;
 	private loopInterval: NodeJS.Timer;
@@ -106,6 +107,7 @@ export class Vectors {
 	}
 
 	public saveVectors() {
+		this.forceRender?.();
 		localStorage.setItem(VECTORS_STORAGE_KEY, JSON.stringify(this.vectors));
 	}
 

@@ -1,4 +1,4 @@
-**Vectors** plugin for Dark Forest.
+**Vectors** plugin for Dark Forest. Energy and silver automated logistics with clear visualization + cool perks.
 
 ![Vectors screenshot](https://github.com/yuvasee/v9v-df-plugins/blob/main/docs/screenshot.png?raw=true)
 
