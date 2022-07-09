@@ -15,3 +15,5 @@ export const VECTORS_COLORS: Record<VectorType, { line: string; arrow: string }>
 	Es: { line: "cyan", arrow: "#00ffff77" },
 	Se: { line: "orange", arrow: "#ffa50077" },
 };
+
+export const INCOMING_THRESHOLD_S = 15;
