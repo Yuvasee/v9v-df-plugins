@@ -7,13 +7,19 @@
 - clone this repo to local folder
 - run `yarn` to install dependencies
 - run `yarn dev` to start serving plugins
-- add plugin to the game using the next code snippet:
+- add Vectors to the game using the next code snippet:
 
 ```js
 export { default } from "http://127.0.0.1:2222/v9v_Vectors.js?dev";
 ```
 
-# Features
+- add Harvester plugin to the game using the next code snippet :
+
+```js
+export { default } from "http://127.0.0.1:2222/v9v_Harvester.js?dev";
+```
+
+# Vectors features
 
 ## Energy and silver automated logistics with clear visualization
 
@@ -50,3 +56,8 @@ export { default } from "http://127.0.0.1:2222/v9v_Vectors.js?dev";
 ## What else?
 
 - All the settings and vectors for the game are persisted to browser local.
+
+# Harvester features
+
+- Highlighs foundries by artifact type and rarity.
+- Uses client feature available only in dfdao version.

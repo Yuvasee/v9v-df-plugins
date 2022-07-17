@@ -1,6 +1,17 @@
 import { LocationId, Planet, PlanetType, QueuedArrival, SpaceType } from "@darkforest_eth/types";
 
 export class Utils {
+	public static getAllPlanets(levelFrom?: number, levelTo?: number): Planet[] {
+		let planets = Array.from(df.getAllPlanets());
+		if (levelFrom) {
+			planets = planets.filter((p) => p.planetLevel >= levelFrom);
+		}
+		if (levelTo) {
+			planets = planets.filter((p) => p.planetLevel <= levelTo);
+		}
+		return planets;
+	}
+
 	public static getDist(p0: LocationId | Planet, p1: LocationId | Planet): number {
 		return Math.round(
 			df.getDist(
