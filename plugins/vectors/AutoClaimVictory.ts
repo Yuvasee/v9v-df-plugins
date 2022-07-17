@@ -16,7 +16,7 @@ export class AutoClaimVictory {
 
 	private loop() {
 		if ((df as any).gameover) return;
-		const targetIds = (df as any).getTargetPlanets() as LocationId[];
+		const targetIds = (df as any).getAllTargetPlanets() as LocationId[];
 		targetIds
 			.map((id) => df.getPlanetWithId(id))
 			.filter((p) => Utils.isOwnedByPlayer(p!))
