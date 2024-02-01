@@ -857,7 +857,8 @@ declare class GameManager extends EventEmitter {
 	getWormholes(): Iterable<Wormhole>;
 	/** Return a reference to the planet map */
 	getPlanetMap(): Map<LocationId, Planet>;
-	getTargetPlanets(): LocationId[];
+	// getTargetPlanets(): LocationId[];
+	getAllTargetPlanets(): Iterable<Planet>;
 	/** Return a reference to the artifact map */
 	getArtifactMap(): Map<ArtifactId, Artifact>;
 	/** Return a reference to the map of my planets */
